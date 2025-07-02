@@ -7,9 +7,12 @@ DUCKDB_REQUIRED_VERSION = '1.2.0'
 def check_duckdb_header(header, version)
   found = find_header(
     header,
-    '/opt/homebrew/include',
-    '/opt/homebrew/opt/duckdb/include',
-    '/opt/local/include'
+    '/usr/local/include',              # Standard Linux location
+    '/usr/include',                    # System Linux location
+    '/opt/homebrew/include',           # Keep macOS Homebrew on Apple Silicon
+    '/opt/homebrew/opt/duckdb/include', # Keep macOS Homebrew DuckDB formula
+    '/opt/local/include',              # Keep macOS MacPorts
+    '/usr/local/opt/duckdb/include'    # Additional potential location
   )
   return if found
 
@@ -22,9 +25,12 @@ def check_duckdb_library(library, func, version)
   found = find_library(
     library,
     func,
-    '/opt/homebrew/lib',
-    '/opt/homebrew/opt/duckdb/lib',
-    '/opt/local/lib'
+    '/usr/local/lib',                  # Standard Linux location
+    '/usr/lib',                        # System Linux location
+    '/opt/homebrew/lib',               # Keep macOS Homebrew on Apple Silicon
+    '/opt/homebrew/opt/duckdb/lib',    # Keep macOS Homebrew DuckDB formula
+    '/opt/local/lib',                  # Keep macOS MacPorts
+    '/usr/local/opt/duckdb/lib'        # Additional potential location
   )
   have_func(func, 'duckdb.h')
   return if found
